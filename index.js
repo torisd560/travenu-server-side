@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000
 
 // middleWare
 app.use(cors())
-app.use(express.json()) 
+app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ruilc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 console.log(uri)
@@ -20,6 +20,7 @@ async function run() {
 
         const database = client.db('Travel_Master')
         const serviceCollection = database.collection('services')
+        const boookingCollection = database.collection('booking')
 
         // GET API for Tour Servics
         app.get('/TourService', async (req, res) => {
@@ -29,17 +30,31 @@ async function run() {
         })
 
         // GET API for single service
-        app.get('/TourService/booking/:id', async(req, res) =>{
+        app.get('/TourService/booking/:id', async (req, res) => {
             const id = req.params.id
-            const query = { _id : ObjectId(id)}
+            const query = { _id: ObjectId(id) }
             const service = await serviceCollection.findOne(query)
             res.send(service)
-           
+
         })
 
         // POST API one item
-        
-        
+        app.post('/TourService/booking', async (req, res) => {
+           const booking = req.body
+           const result = await boookingCollection.insertOne(booking)
+           console.log(result)
+        })
+
+        // GET API for manage orders
+        app.get('/TourService/booking', async (req, res) =>{
+            const cursor = boookingCollection.find({})
+            const bookingOrder = await cursor.toArray()
+            res.send(bookingOrder)
+        })
+
+        // DELETE API for booking order
+        app.delete()
+
     }
     finally {
         // await client.close
@@ -50,9 +65,7 @@ run().catch(console.dir)
 app.get('/', (req, res) => {
     res.send('Running Travel server working succesfully')
 })
-app.get('/hello', (req, res)=>{
-    res.send('hello from heroku')
-})
+
 app.listen(port, () => {
     console.log('Running server on port', port)
 })
