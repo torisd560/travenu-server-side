@@ -50,6 +50,9 @@ run().catch(console.dir)
 app.get('/', (req, res) => {
     res.send('Running Travel server working succesfully')
 })
+app.get('/hello', (req, res)=>{
+    res.send('hello from heroku')
+})
 app.listen(port, () => {
     console.log('Running server on port', port)
 })
