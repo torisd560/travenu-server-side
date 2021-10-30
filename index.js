@@ -36,6 +36,9 @@ async function run() {
             res.send(service)
            
         })
+
+        // POST API one item
+        
         
     }
     finally {
@@ -45,7 +48,7 @@ async function run() {
 run().catch(console.dir)
 
 app.get('/', (req, res) => {
-    res.send('Running server working succesfully')
+    res.send('Running Travel server working succesfully')
 })
 app.listen(port, () => {
     console.log('Running server on port', port)
