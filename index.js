@@ -69,6 +69,22 @@ async function run() {
           
         })
 
+        // PUT API for update pending status
+        app.post('/TourService/booking/:id', async(req, res) =>{
+            const id = req.params.id
+            const updateStatus = req.body
+            const filter = { _id : ObjectId(id)}
+            const options = {upsert : true}
+            const updateDoc = {
+                $set :{
+                    status : updateStatus.status
+                }
+            }
+            const result = await boookingCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+            
+        })
+
     }
     finally {
         // await client.close
