@@ -60,17 +60,8 @@ async function run() {
             res.send(bookingOrder)
         })
 
-        // DELETE API for booking order
-        app.delete('/TourService/booking/:id', async (req, res) =>{
-            const id = req.params.id
-            const query = { _id : ObjectId(id)}
-            const results = await boookingCollection.deleteOne(query) 
-            res.send(results)
-          
-        })
-
-        // PUT API for update pending status
-        app.post('/TourService/booking/:id', async(req, res) =>{
+          // PUT API for update pending status
+          app.put('/TourService/booking/:id', async(req, res) =>{
             const id = req.params.id
             const updateStatus = req.body
             const filter = { _id : ObjectId(id)}
@@ -82,7 +73,18 @@ async function run() {
             }
             const result = await boookingCollection.updateOne(filter, updateDoc, options)
             res.send(result)
+            console.log(result)
+           
             
+        })
+
+        // DELETE API for booking order
+        app.delete('/TourService/booking/:id', async (req, res) =>{
+            const id = req.params.id
+            const query = { _id : ObjectId(id)}
+            const results = await boookingCollection.deleteOne(query) 
+            res.send(results)
+          
         })
 
     }
