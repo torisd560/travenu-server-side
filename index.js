@@ -29,6 +29,13 @@ async function run() {
             res.send(services)
         })
 
+        // POST API for Tour services
+        app.post('/TourService', async(req, res) =>{
+            const service = req.body
+            const results = await serviceCollection.insertOne(service)
+            res.send(results)
+        })
+
         // GET API for single service
         app.get('/TourService/booking/:id', async (req, res) => {
             const id = req.params.id
@@ -42,7 +49,8 @@ async function run() {
         app.post('/TourService/booking', async (req, res) => {
            const booking = req.body
            const result = await boookingCollection.insertOne(booking)
-           console.log(result)
+           res.send(result)
+           
         })
 
         // GET API for manage orders
@@ -53,7 +61,13 @@ async function run() {
         })
 
         // DELETE API for booking order
-        app.delete()
+        app.delete('/TourService/booking/:id', async (req, res) =>{
+            const id = req.params.id
+            const query = { _id : ObjectId(id)}
+            const results = await boookingCollection.deleteOne(query) 
+            res.send(results)
+          
+        })
 
     }
     finally {
